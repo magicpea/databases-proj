@@ -69,7 +69,9 @@ GO
 CREATE TABLE tblFARMER
 (FarmerID INT IDENTITY(1,1) primary key,
 FarmerFname VARCHAR(10) NOT NULL,
-FarmerLname VARCHAR(30) NOT NULL)
+FarmerLname VARCHAR(30) NOT NULL,
+FarmerBirth DATE NOT NULL,
+FarmerTypeID INT FOREIGN KEY REFERENCES tblFARMER_TYPE (FarmerTypeID) NOT NULL)
 GO
 
 -- in DB
@@ -147,6 +149,70 @@ GO
 
 ALTER TABLE tblSALES_ORDER
 DROP COLUMN OrderAmount;
+
+ALTER TABLE tblPRODUCT ADD ProductTypeID INT FOREIGN KEY REFERENCES tblPRODUCT_TYPE (ProductTypeID) not null;
+
+ALTER TABLE tblFARMER ADD FarmerBirth DATE;
+
+ALTER TABLE tblFARMER ADD FarmerTypeID INT FOREIGN KEY REFERENCES tblFARMER_TYPE (FarmerTypeID);
+
+ALTER TABLE tblSTORE ADD CountyID INT FOREIGN KEY REFERENCES tblCOUNTY (CountyID);
+
+ALTER TABLE tblSTORE ADD StoreTypeID INT FOREIGN KEY REFERENCES tblSTORE_TYPE (StoreTypeID);
+
+ALTER TABLE tblREVIEW ADD RatingID INT FOREIGN KEY REFERENCES tblRATING (RatingID);
+
+ALTER TABLE tblDISTRIBUTOR ADD DistributorTypeID INT FOREIGN KEY REFERENCES tblDISTRIBUTOR_TYPE(DistributorTypeID);
+
+DROP TABLE tblMEASUREMENT;
+
+ALTER TABLE tblFARMER ADD CountyID INT FOREIGN KEY REFERENCES tblCOUNTY (CountyID);
+
+ALTER TABLE tblDISTRIBUTOR ADD CountyID INT FOREIGN KEY REFERENCES tblCOUNTY (CountyID);
+
+
+
+
+INSERT INTO tblPRODUCT_TYPE (ProductTypeName, ProductTypeDescr)
+VALUES ('vegetable', 'a plant or part of a plant used as food')
+ 
+INSERT INTO tblPRODUCT_TYPE (ProductTypeName, ProductTypeDescr)
+VALUES ('fruit', 'The sweet and fleshy product of a tree or other plant that contains seed and can be eaten as food')
+ 
+INSERT INTO tblPRODUCT_TYPE (ProductTypeName, ProductTypeDescr)
+VALUES ('livestock', 'cattle, poultry, etc.')
+ 
+INSERT INTO tblPRODUCT_TYPE (ProductTypeName, ProductTypeDescr)
+VALUES ('dairy', 'milk products')
+
+INSERT INTO tblFARMER_TYPE (FarmerTypeName, FarmerTypeDescr)
+VALUES ('Small Farmer', 'Farmers that own or/and cultivate less than 2.0 hectare of land')
+ 
+INSERT INTO tblFARMER_TYPE (FarmerTypeName, FarmerTypeDescr)
+VALUES ('Semi Medium Farmer', 'Farmers that own or/and cultivate between 2.0-4.0 hectare of land')
+ 
+INSERT INTO tblFARMER_TYPE (FarmerTypeName, FarmerTypeDescr)
+VALUES ('Dairy Farmer', 'Farmers who have a herd producing milk')
+
+INSERT INTO tblSTATE (StateName, StateAbbr)
+VALUES ('Washington', 'WA')
+ 
+INSERT INTO tblSTATE (StateName, StateAbbr)
+VALUES ('Oregon', 'OR')
+ 
+INSERT INTO tblSTATE (StateName, StateAbbr)
+VALUES ('California', 'CA')
+
+INSERT INTO tblSTORE_TYPE (StoreTypeName, StoreTypeDescr)
+VALUES ('Supermarket', 'a large self-service store selling foods and household goods'), ('Convenience store', 'a store with extended opening hours and in a convenient location'), ('farmers\’ market', 'a food market at which local farmers sell fruit and vegetables and often meat, cheese, and bakery products directly to consumers')
+
+INSERT INTO tblRATING(RatingNumber, RatingDescr)
+VALUES('1', 'Very bad'), ('5', 'The best'), ('5', 'The best'), ('4', 'Very good'), ('3', 'Fine')
+
+INSERT INTO tblDISTRIBUTOR_TYPE(DistributorTypeName, DistributorTypeDescr)
+VALUES('Feed distributor','‘Sells only animal feed'), ('Grain distributor', 'Sells only wheat and oats'), ('Legume distributor', 'Sells only beans, lentils, and peas'), ('Vegetable Distributor', 'Sells only vegetables')
+
+
 
 BACKUP DATABASE INFO_330_6AB TO DISK = 'C:\SQL\INFO_330_6AB.BAK'
 
